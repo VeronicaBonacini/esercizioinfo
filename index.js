@@ -22,34 +22,30 @@ const differenza = (n5, n6) => {
 }
 console.log(differenza(2,10));*/
 
+const request = require("request");
 const fs = require('fs');
+const baseApiUrl = "https://jsonplaceholder.typicode.com";
 
-try {
-	fs.mkdirSync(./persona');
-} catch (err) ();
-
-const persona = {
-	nome: "Veronica",
-	cognome: "Bonacini",
-	anni: 18
-};
-
-const serialize = (jsobject) => {
-	let nome = jsobject.nome;
-	let cognome.jsobject;
-	
-	if (!nome || !cognome) throw new Error("Manca il nome o il cognome della perosona che si vuole salvare") 
+const getUsers = (callback) => {
+	console.log("La richiesta per gli utenti è stata inviata al server...");
+	request(baseApiUrl + "/users",(error, response, body) => {
 		
-	nome = nome.toLowerCase();
-	cognome = cognome.toLowerCase();
-	
-	const data = JSON.stringify(jsobject);
-	const fileName = '$(nome)_$(cognome).json';
-	
-	fs.writeFile('./'$(fileName), data, (err) => {
-		if (err) throw err;
-		console.log('Persona salvata in $(jsobject)';
-		});
+		if (!error && response.statusCode == 200) {
+			console.log("Risposta arrivata dal server!");
+			let markdown = "";
+			const users = JSON.parse(body);
+			
+			for (let i; i < users.length; i++) {
+				markdown += `<h1>${users[i].name}</h1>`;
+			}
+			callback(markdown);
+		}
+	});
 };
-
-serialize(persona);		
+getUsers((markdown => {
+		console.log("sto scrivendo il file...");
+		fs.writeFile("./request/markdown.txt", markdown, (error) => {
+			if (error) throw error;
+			console.log("il file è stato scritto correttamente!")
+		});
+});		
