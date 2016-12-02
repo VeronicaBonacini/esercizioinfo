@@ -7,5 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "veronicabonacini",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "download": "^5.0.2",
+    "express": "^4.14.0",
+    "request": "^2.79.0"
+  }
 }
